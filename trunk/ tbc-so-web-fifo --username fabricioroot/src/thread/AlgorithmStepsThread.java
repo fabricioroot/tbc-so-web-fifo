@@ -37,7 +37,6 @@ public class AlgorithmStepsThread implements Runnable {
     JButton jButtonOkNextStep;
     JLabel jLabelAtDialogNextStep;
     int remainingTimeToFinishRunning;
-    Process process;
 
     public AlgorithmStepsThread(MainScreen mainScreen, JButton jButtonAlgorithmSteps, JButton jButtonReport, Vector<Process> processesList, Vector<Process> reportBase,
                                 Vector<Process> reportBaseTemp, int timeCounter, JPanel jPanelCPU, JProgressBar jProgressBarExecution,
@@ -74,11 +73,6 @@ public class AlgorithmStepsThread implements Runnable {
         return remainingTimeToFinishRunning;
     }
     
-
-    public Process getProcess() {
-        return process;
-    }
-    
     public JDialog getJDialogNextStep() {
         return jDialogNextStep;
     }
@@ -98,7 +92,7 @@ public class AlgorithmStepsThread implements Runnable {
 
             this.reportBase.add(this.reportBaseTemp.firstElement());
             this.reportBaseTemp.remove(0);
-            process = new Process();
+            Process process = new Process();
             process = this.processesList.firstElement();
             this.processesList.remove(0);
             this.mainScreen.paintProcessesList(this.processesList);
