@@ -28,19 +28,11 @@
                           <Component id="jPanelIntroduction" alignment="0" max="32767" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="jPanelAlgorithm" min="-2" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" attributes="0">
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="1" attributes="0">
-                                          <Component id="jPanelProcesses" alignment="0" max="32767" attributes="1"/>
-                                          <Component id="jPanelLegend" alignment="0" max="32767" attributes="1"/>
-                                          <Component id="jPanelAnimation" alignment="0" pref="514" max="32767" attributes="1"/>
-                                      </Group>
-                                  </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <EmptySpace min="-2" pref="242" max="-2" attributes="0"/>
-                                      <Component id="jLabelNextStep" min="-2" pref="8" max="-2" attributes="0"/>
-                                  </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="1" attributes="0">
+                                  <Component id="jPanelProcesses" alignment="0" max="32767" attributes="1"/>
+                                  <Component id="jPanelLegend" alignment="0" max="32767" attributes="1"/>
+                                  <Component id="jPanelAnimation" alignment="0" pref="514" max="32767" attributes="1"/>
                               </Group>
                           </Group>
                       </Group>
@@ -76,8 +68,6 @@
                       <Component id="jPanelLegend" min="-2" pref="56" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jPanelProcesses" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="56" max="-2" attributes="0"/>
-                      <Component id="jLabelNextStep" min="-2" pref="11" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -561,8 +551,6 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonReportActionPerformed"/>
       </Events>
-    </Component>
-    <Component class="javax.swing.JLabel" name="jLabelNextStep">
     </Component>
   </SubComponents>
 </Form>
