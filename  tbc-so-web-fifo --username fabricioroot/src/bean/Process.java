@@ -11,20 +11,20 @@ package bean;
  * @author Fabricio Reis
  */
 public class Process {
-    private int creationTime;
+    private float creationTime;
     private int fathersId;
     private int id;
-    private int lifeTime;
+    private float lifeTime;
     private int priority;
     private int state; // 0 == Ready; 1 == Executing;
     private int size;
-    private int turnAround;
-    private int waitingTime;
+    private float turnAround;
+    private float waitingTime;
     
     public Process() {        
     }
 
-    public Process(int creationTime, int fathersId, int id,int lifeTime, int priority, int state, int size, int turnAround, int waitingTime) {
+    public Process(float creationTime, int fathersId, int id, float lifeTime, int priority, int state, int size, float turnAround, float waitingTime) {
         this.creationTime = creationTime;
         this.fathersId = fathersId;
         this.id = id;
@@ -36,11 +36,11 @@ public class Process {
         this.waitingTime = waitingTime;
     }
 
-    public int getCreationTime() {
+    public float getCreationTime() {
         return creationTime;
     }
 
-    public void setCreationTime(int creationTime) {
+    public void setCreationTime(float creationTime) {
         this.creationTime = creationTime;
     }    
     
@@ -60,12 +60,12 @@ public class Process {
         this.id = id;
     }
 
-    public int getLifeTime() {
+    public float getLifeTime() {
         return lifeTime;
     }
 
-    public void setLifeTime(int likeTime) {
-        this.lifeTime = likeTime;
+    public void setLifeTime(float lifeTime) {
+        this.lifeTime = lifeTime;
     }    
 
     public int getPriority() {
@@ -92,19 +92,19 @@ public class Process {
         this.state = state;
     }
 
-    public int getTurnAround() {
+    public float getTurnAround() {
         return turnAround;
     }
 
-    public void setTurnAround(int turnAround) {
+    public void setTurnAround(float turnAround) {
         this.turnAround = turnAround;
     }
     
-    public int getWaitingTime() {
+    public float getWaitingTime() {
         return waitingTime;
     }
 
-    public void setWaitingTime(int waitingTime) {
+    public void setWaitingTime(float waitingTime) {
         this.waitingTime = waitingTime;
     }
 }
