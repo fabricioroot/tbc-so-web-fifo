@@ -36,7 +36,7 @@ public class AlgorithmStepsThread implements Runnable {
     JDialog jDialogNextStep;
     JButton jButtonOkNextStep;
     JLabel jLabelAtDialogNextStep;
-    int remainingTimeToFinishRunning;
+    float remainingTimeToFinishRunning;
 
     public AlgorithmStepsThread(MainScreen mainScreen, JButton jButtonAlgorithmSteps, JButton jButtonReport, Vector<Process> processesList, Vector<Process> reportBase,
                                 Vector<Process> reportBaseTemp, int timeCounter, JPanel jPanelCPU, JProgressBar jProgressBarExecution,
@@ -69,7 +69,7 @@ public class AlgorithmStepsThread implements Runnable {
         return timeCounter;
     }
 
-    public int getRemainingTimeToFinishRunning() {
+    public float getRemainingTimeToFinishRunning() {
         return remainingTimeToFinishRunning;
     }
     
@@ -105,12 +105,12 @@ public class AlgorithmStepsThread implements Runnable {
             block.setBounds(35, 20, 30, 30);
             this.jPanelCPU.add(block);
             block.setText("P" + String.valueOf(process.getId()));
-            block.setToolTipText("Tempo de burst = " + String.valueOf(process.getLifeTime()));
+            block.setToolTipText("Tempo de burst = " + String.valueOf((int)process.getLifeTime()));
             this.jProgressBarExecution.setVisible(true);
             this.jLabelShowBurstTime.setVisible(true);
-            this.jLabelShowBurstTime.setText("Tempo de burst de P" + String.valueOf(process.getId()) + " = " + String.valueOf(process.getLifeTime()));
+            this.jLabelShowBurstTime.setText("Tempo de burst de P" + String.valueOf(process.getId()) + " = " + String.valueOf((int)process.getLifeTime()));
             this.jLabelShowCreationTime.setVisible(true);
-            this.jLabelShowCreationTime.setText("Tempo na criação de P" + String.valueOf(process.getId()) + " = " + String.valueOf(process.getCreationTime()));
+            this.jLabelShowCreationTime.setText("Tempo na criação de P" + String.valueOf(process.getId()) + " = " + String.valueOf((int)process.getCreationTime()));
 
             this.jDialogNextStep = new JDialog();
             this.jDialogNextStep.setModalityType(ModalityType.MODELESS);
@@ -149,7 +149,7 @@ public class AlgorithmStepsThread implements Runnable {
                     this.isJButtonOkClicked = false;
                     this.remainingTimeToFinishRunning--;
                     j++;
-                    aux = 100 / process.getLifeTime();
+                    aux = 100 / (int)process.getLifeTime();
                     this.timeCounter++;
                     this.jLabelTimeCounter.setText(String.valueOf(this.timeCounter));
                     this.jProgressBarExecution.setValue(j*aux);
@@ -161,7 +161,7 @@ public class AlgorithmStepsThread implements Runnable {
             while (j == process.getLifeTime()) {
                 if (this.isJButtonOkClicked) {
                     this.isJButtonOkClicked = false;
-                    aux = 100 / process.getLifeTime();
+                    aux = 100 / (int)process.getLifeTime();
                     j++;
                     this.jProgressBarExecution.setValue(j*aux);
                     this.jProgressBarExecution.getUI().update(this.jProgressBarExecution.getGraphics(), this.jProgressBarExecution);

@@ -11,6 +11,7 @@ import javax.swing.JTextField;
 import java.util.Vector;
 import bean.Process;
 import java.awt.Dimension;
+import java.text.DecimalFormat;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import manager.Calculator;
@@ -31,7 +32,7 @@ public class MainScreen extends javax.swing.JApplet {
     
     int processCounter = 0; //This variable is used to label orderly the blocks in 'jPanelReadyProcesses'
     int timeCounter = 0; //This variable is used to implement a logical clock
-    int waitingTimeNecessary = 0; //This variable is used control the process' waiting time necessary to be executed
+    float waitingTimeNecessary = 0; //This variable is used control the process' waiting time necessary to be executed
     
     Vector<Process> reportBase = new Vector<Process>(); //This vector stores all the processes created with its values (waiting time, turn around).
                                                         //It is used to show a report to the user
@@ -513,7 +514,7 @@ public class MainScreen extends javax.swing.JApplet {
             }
             if(this.processesList.size() <= 20) {
                 Process process = new Process();
-                process.setLifeTime(Integer.parseInt(this.jTextFieldBurstTime.getText()));
+                process.setLifeTime(Float.parseFloat(this.jTextFieldBurstTime.getText()));
                 process.setId(this.processCounter);
                 process.setState(0);
                 if(st != null) {
@@ -528,7 +529,7 @@ public class MainScreen extends javax.swing.JApplet {
                 else {
                     this.waitingTimeNecessary = this.calculator.burtTimeSum(this.processesList);
                 }
-                process.setCreationTime(this.timeCounter);
+                process.setCreationTime((float)this.timeCounter);
                 process.setWaitingTime(this.waitingTimeNecessary);
                 process.setTurnAround(process.getWaitingTime() + process.getLifeTime());
                 this.processesList.add(process);
@@ -614,53 +615,55 @@ public class MainScreen extends javax.swing.JApplet {
         report += "* Informações sobre os processos criados\n";
 
         for(int i = 0; i <= (this.reportBase.size() - 1); i++) {
-            report += "P" + this.reportBase.elementAt(i).getId() + ": tempo de burst = " + this.reportBase.elementAt(i).getLifeTime() + ";  tempo na criação = " + this.reportBase.elementAt(i).getCreationTime() + ";\n";
+            report += "P" + this.reportBase.elementAt(i).getId() + ": tempo de burst = " + (int)this.reportBase.elementAt(i).getLifeTime() + ";  tempo na criação = " + (int)this.reportBase.elementAt(i).getCreationTime() + ";\n";
         }
         
         for(int i = 0; i <= (this.reportBaseTemp.size() - 1); i++) {
-            report += "P" + this.reportBaseTemp.elementAt(i).getId() + ": tempo de burst = " + this.reportBaseTemp.elementAt(i).getLifeTime() + ";  tempo na criação = " + this.reportBaseTemp.elementAt(i).getCreationTime() + ";\n";
+            report += "P" + this.reportBaseTemp.elementAt(i).getId() + ": tempo de burst = " + (int)this.reportBaseTemp.elementAt(i).getLifeTime() + ";  tempo na criação = " + (int)this.reportBaseTemp.elementAt(i).getCreationTime() + ";\n";
         }
         
         report += "\n ** PROCESSOS EXECUTADOS\n";
         report += "\n* Tempos de espera\n";
         
         for(int i = 0; i <= (this.reportBase.size() - 1); i++) {
-            report += "P" + this.reportBase.elementAt(i).getId() + " = " + this.reportBase.elementAt(i).getWaitingTime() + ";  ";
+            report += "P" + this.reportBase.elementAt(i).getId() + " = " + (int)this.reportBase.elementAt(i).getWaitingTime() + ";  ";
             if ((i >0) && (i % 10 == 0)) {
                 report += "\n";
             }
         }
 
-        int mediumWaintingTime = calculator.averageWaitingTime(this.reportBase);
+        DecimalFormat df = new DecimalFormat("#0.00");
+
+        float mediumWaintingTime = calculator.averageWaitingTime(this.reportBase);
         report += "\n\n* Tempo médio de espera\n";
         report += "(";
         for(int i = 0; i <= (this.reportBase.size() - 2); i++) {
-            report += this.reportBase.elementAt(i).getWaitingTime() + " + ";
+            report += (int)this.reportBase.elementAt(i).getWaitingTime() + " + ";
             if((i >0) && (i % 21 == 0)) {
                 report += "\n";
             }
         }
-        report += this.reportBase.lastElement().getWaitingTime() + ") / " + this.reportBase.size() + " = " + mediumWaintingTime;
+        report += (int)this.reportBase.lastElement().getWaitingTime() + ") / " + this.reportBase.size() + " = " + df.format(mediumWaintingTime);
         
         report += "\n\n* Tempos de retorno (turn around)\n";
         
         for(int i = 0; i <= (this.reportBase.size() - 1); i++) {
-            report += "P" + this.reportBase.elementAt(i).getId() + " = " + this.reportBase.elementAt(i).getTurnAround() + ";  ";
+            report += "P" + this.reportBase.elementAt(i).getId() + " = " + (int)this.reportBase.elementAt(i).getTurnAround() + ";  ";
             if ((i >0) && (i % 10 == 0)) {
                 report += "\n";
             }
         }
         
-        int mediumTurnAround = calculator.averageTurnAround(this.reportBase);
+        float mediumTurnAround = calculator.averageTurnAround(this.reportBase);
         report += "\n\n* Tempo médio de retorno (turn around médio)\n";
         report += "(";
         for(int i = 0; i <= (this.reportBase.size() - 2); i++) {
-            report += this.reportBase.elementAt(i).getTurnAround() + " + ";
+            report += (int)this.reportBase.elementAt(i).getTurnAround() + " + ";
             if((i >0) && (i % 21 == 0)) {
                 report += "\n";
             }
         }
-        report += this.reportBase.lastElement().getTurnAround() + ") / " + this.reportBase.size() + " = " + mediumTurnAround;
+        report += (int)this.reportBase.lastElement().getTurnAround() + ") / " + this.reportBase.size() + " = " + df.format(mediumTurnAround);
         
         JTextArea reportArea = new JTextArea(report);
         reportArea.setEditable(false);
@@ -694,7 +697,7 @@ public class MainScreen extends javax.swing.JApplet {
             block.setHorizontalAlignment(javax.swing.JTextField.CENTER);
             block.setEditable(false);
             block.setText("P" + String.valueOf(processesQueue.elementAt(i).getId()));
-            block.setToolTipText("Tempo de burst = " + String.valueOf(processesQueue.elementAt(i).getLifeTime()) + ";\n  Tempo na criação = " + String.valueOf(processesQueue.elementAt(i).getCreationTime()));
+            block.setToolTipText("Tempo de burst = " + String.valueOf((int)processesQueue.elementAt(i).getLifeTime()) + ";\n  Tempo na criação = " + String.valueOf((int)processesQueue.elementAt(i).getCreationTime()));
             this.jPanelReadyProcesses.add(block);
             
             if (i <= 6) {
