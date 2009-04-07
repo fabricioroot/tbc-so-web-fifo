@@ -14,8 +14,8 @@ public class Calculator {
     
     /* This method calculates the sum of the burst times.
      */
-    public float burtTimeSum (Vector<Process> processes) {
-        int aux = 0;
+    public float burstTimeSum (Vector<Process> processes) {
+        float aux = 0;
         for (int i = 0; i <= (processes.size() - 1); i++) {
             aux += processes.elementAt(i).getLifeTime();
         }

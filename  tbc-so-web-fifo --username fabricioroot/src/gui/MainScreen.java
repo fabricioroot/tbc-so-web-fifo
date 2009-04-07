@@ -41,6 +41,7 @@ public class MainScreen extends javax.swing.JApplet {
     Calculator calculator = new Calculator(); //See the class 'Calculator' for more details
     
     AlgorithmStepsThread st;
+    Thread t;
     
     /** Initializes the applet MainScreen */    
     @Override
@@ -520,14 +521,14 @@ public class MainScreen extends javax.swing.JApplet {
                 if(st != null) {
                     this.timeCounter = st.getTimeCounter();
                     if(st.getJDialogNextStep().isVisible() == true) {
-                        this.waitingTimeNecessary = st.getRemainingTimeToFinishRunning() + calculator.burtTimeSum(this.processesList);
+                        this.waitingTimeNecessary = st.getRemainingTimeToFinishRunning() + calculator.burstTimeSum(this.processesList);
                     }
                     else {
-                        this.waitingTimeNecessary = this.calculator.burtTimeSum(this.processesList);
+                        this.waitingTimeNecessary = this.calculator.burstTimeSum(this.processesList);
                     }
                 }
                 else {
-                    this.waitingTimeNecessary = this.calculator.burtTimeSum(this.processesList);
+                    this.waitingTimeNecessary = this.calculator.burstTimeSum(this.processesList);
                 }
                 process.setCreationTime((float)this.timeCounter);
                 process.setWaitingTime(this.waitingTimeNecessary);
@@ -558,6 +559,10 @@ public class MainScreen extends javax.swing.JApplet {
 }//GEN-LAST:event_jButtonCreateProcessActionPerformed
 
     private void jButtonAlgorithmStepsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAlgorithmStepsActionPerformed
+        if (st == null) {
+            JOptionPane.showMessageDialog(null, "Será aberta uma janela com um botão \"OK\" para prosseguir os passos do algoritmo.\n" +
+                            "DICA: caso esta janela suma (saia da frente das outras janelas abertas), use as teclas \"ALT + TAB\" para colocá-la na frente novamente.", "ATENÇÃO", JOptionPane.WARNING_MESSAGE);
+        }
         if(st != null) {
             this.reportBase = st.getReportBase();
             this.reportBaseTemp = st.getReportBaseTemp();
@@ -567,7 +572,7 @@ public class MainScreen extends javax.swing.JApplet {
         st = new AlgorithmStepsThread(this, this.jButtonAlgorithmSteps, this.jButtonReport, this.processesList, this.reportBase,
                                       this.reportBaseTemp, this.timeCounter, this.jPanelCPU, this.jProgressBarExecution,
                                       this.jLabelShowBurstTime, this.jLabelShowCreationTime, this.jLabelTimeCounter, this.jLabelCPU);
-        Thread t = new Thread(st);
+        t = new Thread(st);
         t.start();
 }//GEN-LAST:event_jButtonAlgorithmStepsActionPerformed
 
@@ -602,6 +607,11 @@ public class MainScreen extends javax.swing.JApplet {
             this.st.setJDialogNextStep(null);
             this.st = null;
         }
+        if (this.t != null) {
+            if (t.isAlive()) {
+                t.stop();
+            }    
+        }
         System.gc();
     }//GEN-LAST:event_jButtonRestartActionPerformed
 
@@ -612,7 +622,7 @@ public class MainScreen extends javax.swing.JApplet {
         }
 
         String report = "";
-        report += "* Informações sobre os processos criados\n";
+        report += "* INFORMAÇÕES SOBRE OS PROCESSOS CRIADOS\n";
 
         for(int i = 0; i <= (this.reportBase.size() - 1); i++) {
             report += "P" + this.reportBase.elementAt(i).getId() + ": tempo de burst = " + (int)this.reportBase.elementAt(i).getLifeTime() + ";  tempo na criação = " + (int)this.reportBase.elementAt(i).getCreationTime() + ";\n";
