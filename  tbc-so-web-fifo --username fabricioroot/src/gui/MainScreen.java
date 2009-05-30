@@ -58,6 +58,7 @@ public class MainScreen extends javax.swing.JApplet {
                     jProgressBarExecution.setVisible(false);
                     jLabelTime.setVisible(false);
                     jLabelTimeCounter.setVisible(false);
+                    jButtonOkNextStep.setVisible(false);
                 }
             });
         } catch (Exception ex) {
@@ -101,6 +102,7 @@ public class MainScreen extends javax.swing.JApplet {
         jButtonAlgorithmSteps = new javax.swing.JButton();
         jButtonRestart = new javax.swing.JButton();
         jButtonReport = new javax.swing.JButton();
+        jButtonOkNextStep = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(204, 204, 204));
 
@@ -141,7 +143,7 @@ public class MainScreen extends javax.swing.JApplet {
         );
         jPanelAlgorithmLayout.setVerticalGroup(
             jPanelAlgorithmLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPaneAlgorithm, javax.swing.GroupLayout.DEFAULT_SIZE, 442, Short.MAX_VALUE)
+            .addComponent(jScrollPaneAlgorithm, javax.swing.GroupLayout.DEFAULT_SIZE, 441, Short.MAX_VALUE)
         );
 
         jPanelAnimation.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Gerência de Processos", javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.TOP));
@@ -378,6 +380,11 @@ public class MainScreen extends javax.swing.JApplet {
             }
         });
 
+        jButtonOkNextStep.setFont(new java.awt.Font("Tahoma", 1, 12));
+        jButtonOkNextStep.setText("Clique aqui para próximo passo");
+        jButtonOkNextStep.setToolTipText("Clique aqui para próximo passo");
+        jButtonOkNextStep.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -396,16 +403,18 @@ public class MainScreen extends javax.swing.JApplet {
                                     .addComponent(jPanelLegend, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jPanelAnimation, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 514, Short.MAX_VALUE)))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(245, 245, 245)
+                        .addGap(149, 149, 149)
                         .addComponent(jButtonIntroduction)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButtonStart)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButtonAlgorithmSteps)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButtonReport)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonRestart)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButtonRestart)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButtonOkNextStep)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -428,7 +437,8 @@ public class MainScreen extends javax.swing.JApplet {
                     .addComponent(jButtonStart)
                     .addComponent(jButtonAlgorithmSteps)
                     .addComponent(jButtonReport)
-                    .addComponent(jButtonRestart))
+                    .addComponent(jButtonRestart)
+                    .addComponent(jButtonOkNextStep))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -520,7 +530,7 @@ public class MainScreen extends javax.swing.JApplet {
                 process.setState(0);
                 if(st != null) {
                     this.timeCounter = st.getTimeCounter();
-                    if(st.getJDialogNextStep().isVisible() == true) {
+                    if(st.getJButtonOkNextStep().isVisible() == true) {
                         this.waitingTimeNecessary = st.getRemainingTimeToFinishRunning() + calculator.burstTimeSum(this.processesList);
                     }
                     else {
@@ -542,7 +552,7 @@ public class MainScreen extends javax.swing.JApplet {
                         "              2) Após a execução de um processo, clique em 'Relatório' para exibir informações estatísticas. ", "DICA", JOptionPane.INFORMATION_MESSAGE);
                 
                 if(this.st != null) {
-                    if(!this.st.getJDialogNextStep().isVisible()) {
+                    if(!this.st.getJButtonOkNextStep().isVisible()) {
                         this.jButtonAlgorithmSteps.setEnabled(true);
                     }    
                 }
@@ -559,10 +569,6 @@ public class MainScreen extends javax.swing.JApplet {
 }//GEN-LAST:event_jButtonCreateProcessActionPerformed
 
     private void jButtonAlgorithmStepsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAlgorithmStepsActionPerformed
-        if (st == null) {
-            JOptionPane.showMessageDialog(null, "Será aberta uma janela com um botão \"OK\" para prosseguir os passos do algoritmo.\n" +
-                            "DICA: caso esta janela suma (saia da frente das outras janelas abertas), use as teclas \"ALT + TAB\" para colocá-la na frente novamente.", "ATENÇÃO", JOptionPane.WARNING_MESSAGE);
-        }
         if(st != null) {
             this.reportBase = st.getReportBase();
             this.reportBaseTemp = st.getReportBaseTemp();
@@ -571,7 +577,7 @@ public class MainScreen extends javax.swing.JApplet {
         this.jProgressBarExecution.setValue(0);
         st = new AlgorithmStepsThread(this, this.jButtonAlgorithmSteps, this.jButtonReport, this.processesList, this.reportBase,
                                       this.reportBaseTemp, this.timeCounter, this.jPanelCPU, this.jProgressBarExecution,
-                                      this.jLabelShowBurstTime, this.jLabelShowCreationTime, this.jLabelTimeCounter, this.jLabelCPU);
+                                      this.jLabelShowBurstTime, this.jLabelShowCreationTime, this.jLabelTimeCounter, this.jLabelCPU, this.jButtonOkNextStep);
         t = new Thread(st);
         t.start();
 }//GEN-LAST:event_jButtonAlgorithmStepsActionPerformed
@@ -603,8 +609,7 @@ public class MainScreen extends javax.swing.JApplet {
         this.reportBaseTemp = null;
         this.reportBase = null;
         if(this.st != null) {
-            this.st.getJDialogNextStep().setVisible(false);
-            this.st.setJDialogNextStep(null);
+            this.st.getJButtonOkNextStep().setVisible(false);
             this.st = null;
         }
         if (this.t != null) {
@@ -728,6 +733,7 @@ public class MainScreen extends javax.swing.JApplet {
     private javax.swing.JButton jButtonAlgorithmSteps;
     private javax.swing.JButton jButtonCreateProcess;
     private javax.swing.JButton jButtonIntroduction;
+    private javax.swing.JButton jButtonOkNextStep;
     private javax.swing.JButton jButtonReport;
     private javax.swing.JButton jButtonRestart;
     private javax.swing.JButton jButtonStart;
