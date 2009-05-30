@@ -1,10 +1,7 @@
 package thread;
 
-import java.awt.Dialog.ModalExclusionType;
-import java.awt.Dialog.ModalityType;
 import java.util.Vector;
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import bean.Process;
@@ -33,14 +30,13 @@ public class AlgorithmStepsThread implements Runnable {
     JLabel jLabelTimeCounter;
     JLabel jLabelCPU;
     boolean isJButtonOkClicked = false;
-    JDialog jDialogNextStep;
     JButton jButtonOkNextStep;
     JLabel jLabelAtDialogNextStep;
     float remainingTimeToFinishRunning;
 
     public AlgorithmStepsThread(MainScreen mainScreen, JButton jButtonAlgorithmSteps, JButton jButtonReport, Vector<Process> processesList, Vector<Process> reportBase,
                                 Vector<Process> reportBaseTemp, int timeCounter, JPanel jPanelCPU, JProgressBar jProgressBarExecution,
-                                JLabel jLabelShowBurstTime, JLabel jLabelShowCreationTime, JLabel jLabelTimeCounter, JLabel jLabelCPU){
+                                JLabel jLabelShowBurstTime, JLabel jLabelShowCreationTime, JLabel jLabelTimeCounter, JLabel jLabelCPU, JButton jButtonOkNextStep){
         
         this.mainScreen = mainScreen;
         this.jButtonAlgorithmSteps = jButtonAlgorithmSteps;
@@ -55,6 +51,7 @@ public class AlgorithmStepsThread implements Runnable {
         this.jLabelShowCreationTime = jLabelShowCreationTime;
         this.jLabelTimeCounter = jLabelTimeCounter;
         this.jLabelCPU = jLabelCPU;
+        this.jButtonOkNextStep = jButtonOkNextStep;
     }
 
     public Vector<Process> getReportBase() {
@@ -73,12 +70,12 @@ public class AlgorithmStepsThread implements Runnable {
         return remainingTimeToFinishRunning;
     }
     
-    public JDialog getJDialogNextStep() {
-        return jDialogNextStep;
+    public JButton getJButtonOkNextStep() {
+        return jButtonOkNextStep;
     }
 
-    public void setJDialogNextStep(JDialog jDialogNextStep) {
-        this.jDialogNextStep = jDialogNextStep;
+    public void setJButtonOkNextStep(JButton jButtonOkNextStep) {
+        this.jButtonOkNextStep = jButtonOkNextStep;
     }
     
     public void run() {
@@ -112,35 +109,13 @@ public class AlgorithmStepsThread implements Runnable {
             this.jLabelShowCreationTime.setVisible(true);
             this.jLabelShowCreationTime.setText("Tempo na criação de P" + String.valueOf(process.getId()) + " = " + String.valueOf((int)process.getCreationTime()));
 
-            this.jDialogNextStep = new JDialog();
-            this.jDialogNextStep.setModalityType(ModalityType.MODELESS);
-            this.jDialogNextStep.setModalExclusionType(ModalExclusionType.APPLICATION_EXCLUDE);
-            //this.jDialogNextStep.setAlwaysOnTop(true);
-            this.jDialogNextStep.setResizable(false);
-            this.jDialogNextStep.setBounds(600, 520, 231, 118);
-            this.jDialogNextStep.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
-            this.jDialogNextStep.setLayout(null);
-            this.jDialogNextStep.setTitle("EXECUÇÃO DE P" + String.valueOf(process.getId()) + " ...");
-
-            this.jButtonOkNextStep = new JButton("OK");
-            this.jButtonOkNextStep.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-            this.jButtonOkNextStep.setBorderPainted(true);
-            this.jButtonOkNextStep.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-            this.jButtonOkNextStep.setBounds(80, 35, 60, 30);
-
             this.jButtonOkNextStep.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                     isJButtonOkClicked = true;
                 }
             });
 
-            this.jLabelAtDialogNextStep = new JLabel("Clique em 'OK' para o próximo passo");
-            this.jLabelAtDialogNextStep.setBounds(5, 3, 500, 30);
-
-            this.jDialogNextStep.add(this.jLabelAtDialogNextStep);
-            this.jDialogNextStep.add(this.jButtonOkNextStep);
-            
-            this.jDialogNextStep.setVisible(true);
+            this.jButtonOkNextStep.setVisible(true);
             this.remainingTimeToFinishRunning = process.getLifeTime();
             int j = 0;
             int aux = 0;
@@ -168,7 +143,7 @@ public class AlgorithmStepsThread implements Runnable {
                 }
             }
             
-            this.jDialogNextStep.setVisible(false);
+            this.jButtonOkNextStep.setVisible(false);
 
             this.jPanelCPU.removeAll();
             this.jPanelCPU.repaint();
